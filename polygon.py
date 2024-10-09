@@ -28,34 +28,16 @@ class Rectangle:
 		return ""
 
 	def get_amount_inside(self, instance):
-		# print(instance)
-		# print(instance)
-
 		a = instance.height
 		b = instance.width
 		
-		# print("instance.height:", a)
-		# print("instance.width:", b)
-		# print(a, b)
-
-		# find the min length of the attributes
+		# Find the minimum side length of the instance
 		min_side_length = min(a, b)
-		# print('min_side_length:', min_side_length)
 
-		# print('self.height (parent class):', self.height)
-		# print('self.width (parent class):', self.width)
-
-		# but you pass in the square instance, treating the square 
-		# instance as a subset of the rectangle instance
-
-		# take the 'parent side.length' and 'parent side.width'
-		# attributes and determine how many times the square
-		# instance (defined in the parameter) fits into a rectangle
-		# defined by the 'parent side.length' and 'parent side.width'
+		# Calculate how many times the instance fits into the rectangle
 		c = self.height // min_side_length
 		d = self.width // min_side_length
 
-		# print(c, d)
 		return c * d
 
 
@@ -75,21 +57,22 @@ class Square(Rectangle):
 		self.height = self.side
 
 
-rect = Rectangle(10, 5)
-print(rect.get_area())
-rect.set_height(3)
+if __name__ == "__main__":
+	rect = Rectangle(10, 5)
+	print(rect.get_area())
+	rect.set_height(3)
 
-print(rect.get_perimeter())
-print(rect)
-print(rect.get_picture())
+	print(rect.get_perimeter())
+	print(rect)
+	print(rect.get_picture())
 
-sq = Square(9)
-print(sq.get_area())
-sq.set_side(4)
-print(sq.get_diagonal())
-print(sq)
-print(sq.get_picture())
+	sq = Square(9)
+	print(sq.get_area())
+	sq.set_side(4)
+	print(sq.get_diagonal())
+	print(sq)
+	print(sq.get_picture())
 
-rect.set_height(8)
-rect.set_width(16)
-print(rect.get_amount_inside(sq))
+	rect.set_height(8)
+	rect.set_width(16)
+	print(rect.get_amount_inside(sq))
