@@ -1,59 +1,55 @@
-import copy
 import random
 
 class Hat:
-	def __init__(self, **kwargs):
+	def __init__(self, **balls):
 		self.contents = []
+		for color, count in balls.items():
+			for _ in range(count):
+				self.contents.append(color)
 
-		for key, value in kwargs.items():
-			setattr(self, key, value)
-
-			for number_of_balls in range(value):
-				self.contents.append(key)
-
-
-	def draw(self, number_to_draw):
-		"""
-		remove balls at random from contents
-		and return those balls as a list of string
-
-		the balls should not go back into the hat during the draw, 
-		similar to an urn experiment without replacement.
-
-		if the number of balls to draw exceeds the available quantity, 
-		return all of the balls.
-		"""
-
-		# determine the length of the list of elements
-
-		# if the number of balls to draw exceeds the available quantity, return all of the balls.
-		if number_to_draw > len(self.contents):
-			return self.contents
-
-		# remove the ith element (generated randomly) from the list based on parameter value ('number to draw')
-		for ith_removed_ball in range(number_to_draw):
-			length = len(self.contents)
-
-			# generate a random index in the list, for each iteration
-			random_index = random.randint(0, length - 1)
-
-			# remove the ith element in the list, based on the value of 'random index'
-			del self.contents[random_index]
-
-		return self.contents
-
+	def draw(self, num_balls):
+		drawn_balls = []
+		if num_balls > len(self.contents):
+			drawn_balls = self.contents[:]
+		else:
+			for _ in range(num_balls):
+				choice = random.choice(self.contents)
+				self.contents.remove(choice)
+				drawn_balls.append(choice)
+		return drawn_balls
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
-	# generate a copy of the original list of balls to be selected
-	total_balls = hat.contents
+	success_count = 0
 
-	# convert num_balls_drawn to a list, from the dictionary passed in in the parameter
+	for _ in range(num_experiments):
+		hat_copy = Hat(**{color: hat.contents.count(color) for color in set(hat.contents)})
+		drawn_balls = hat_copy.draw(num_balls_drawn)
+		drawn_balls_count = {}
+		for ball in drawn_balls:
+			if ball in drawn_balls_count:
+				drawn_balls_count[ball] += 1
+			else:
+				drawn_balls_count[ball] = 1
+
+		success = True
+		for color, count in expected_balls.items():
+			if drawn_balls_count.get(color, 0) < count:
+				success = False
+				break
+
+		if success:
+			success_count += 1
+
+	return success_count / num_experiments
+
+
+if __name__ == "__main__":
+	hat = Hat(black=6, red=4, green=3)
+	probability = experiment(hat=hat,
+					expected_balls={'red':2,'green':1},
+					num_balls_drawn=5,
+					num_experiments=2000)
 	
-
-
-hat = Hat(red=0, orange=1, yellow=2)
-print(hat)
-print(hat.contents)
-hat = Hat(red=0, orange=1, yellow=2, green=3, blue=4, purple=5)
-print(hat)
-print(hat.contents)
+	# Since this is based on random draws, the probability
+	# will be slightly different each time the code is run.
+	print(probability)
