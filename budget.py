@@ -32,28 +32,16 @@ class Category:
         else:
             return True
 
-    def __str__(self):
-        print('*************Food*************')
-        print('initial deposit\t', self.balance)
-
-        return
-        
-
-def create_spend_chart(categories: list):
-    "Percentage spent by category"
-    pass
 
         
 
-
-
-food = Category('Food')
-food.deposit(1000, 'deposit')
-food.withdraw(10, 'groceries')
-food.withdraw(20, 'restaurant and more food for dessert')
-clothing = Category('Clothing')
-food.transfer(50, clothing)
-# print(food.transfer(50, clothing))
-print(food.balance)
-print(clothing.balance)
-print(food)
+if __name__ == "__main__":
+    food = Category('Food')
+    food.deposit(1000, 'deposit')
+    food.withdraw(10, 'groceries')
+    food.withdraw(20, 'restaurant and more food for dessert')
+    clothing = Category('Clothing')
+    food.transfer(50, clothing)
+    print(food.transfer(50, clothing))
+    print(food.balance)
+    print(clothing.balance)
