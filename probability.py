@@ -18,9 +18,10 @@ class Hat:
                 drawn_balls.append(choice)
         return drawn_balls
 
+
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
     success_count = 0
-
+    
     for _ in range(num_experiments):
         hat_copy = Hat(**{color: hat.contents.count(color) for color in set(hat.contents)})
         drawn_balls = hat_copy.draw(num_balls_drawn)
@@ -30,8 +31,8 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
                 drawn_balls_count[ball] += 1
             else:
                 drawn_balls_count[ball] = 1
-
         success = True
+        
         for color, count in expected_balls.items():
             if drawn_balls_count.get(color, 0) < count:
                 success = False

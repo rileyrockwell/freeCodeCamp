@@ -1,5 +1,4 @@
 class Category:
-
     def __init__(self, budget_category):
         self.budget_category = budget_category
         self.balance = 0
