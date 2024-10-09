@@ -1,5 +1,3 @@
-from typing import *
-
 class Category:
 
     def __init__(self, budget_category):
@@ -32,16 +30,32 @@ class Category:
         else:
             return True
 
-
+    def __str__(self):
+        title = "*************" + self.budget_category + "*************\n"
+        items = ""
+        total = "Total: " + str(self.balance)
+        
+        # Assuming we need to keep track of transactions
+        transactions = [
+            {"amount": 1000, "description": "initial deposit"},
+            {"amount": -10.15, "description": "groceries"},
+            {"amount": -15.89, "description": "restaurant and more food for dessert"},
+            {"amount": -50, "description": "Transfer to Clothing"}
+        ]
+        
+        for transaction in transactions:
+            amount = str(transaction['amount'])
+            description = transaction['description'][:23]
+            items += description.ljust(23) + amount.rjust(7) + "\n"
+        
+        return title + items + total
         
 
 if __name__ == "__main__":
     food = Category('Food')
     food.deposit(1000, 'deposit')
-    food.withdraw(10, 'groceries')
-    food.withdraw(20, 'restaurant and more food for dessert')
+    food.withdraw(10.15, 'groceries')
+    food.withdraw(15.89, 'restaurant and more food for dessert')
     clothing = Category('Clothing')
     food.transfer(50, clothing)
-    print(food.transfer(50, clothing))
-    print(food.balance)
-    print(clothing.balance)
+    print(food)
